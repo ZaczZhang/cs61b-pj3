@@ -1,0 +1,26 @@
+package graph;
+import list.*;
+
+protected class Vertex {
+  private Object item;
+  private DList adjList;
+  
+  public Vertex(Object theItem) {
+    item = theItem;
+    adjList = new DList();
+  }
+  
+  public Object getItem() {
+    return item;
+  }
+  
+  public Object getList() {
+    return adjList;
+  }
+
+  public void addToAL(Object newAL) {
+    adjList.insertBack(newAL);
+  }
+
+  public void removeFromAL(Object 
+}
