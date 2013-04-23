@@ -1,23 +1,8 @@
 /* WUGraph.java */
 
-/* NOTE TO EMILY & RICHA:
-What I did: 
-
-I added two hashtables, vertHashTable & edgeHashTable. 
-
-Emily might use this for her thing.
-
-What methods work?
-
-vertexCount, edgeCount, isVertex, & isEdge.
-
-What methods still need working on?
-removeEdge -- I need to know how Emily established her #4. 
-weight -- I need to know how Emily established her #4.
- */
-
 package graph;
 import dict.*;
+import list.*;
 
 /**
  * The WUGraph class represents a weighted, undirected graph.  Self-edges are
@@ -25,7 +10,7 @@ import dict.*;
  */
 
 public class WUGraph {
-	HashTableChained vertHashTable;
+	protected HashTableChained vertHashTable;
 	HashTableChained edgeHashTable;
 	
   /**
@@ -67,7 +52,9 @@ public class WUGraph {
    *
    * Running time:  O(|V|).
    */
-  public Object[] getVertices();
+  public Object[] getVertices() {
+
+  }
 
   /**
    * addVertex() adds a vertex (with no incident edges) to the graph.  The
@@ -76,7 +63,12 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public void addVertex(Object vertex);
+  public void addVertex(Object vertex){
+    if (!isVertex(vertex)) {
+      DList vertAdjList = new DList();
+      vertHashTable.insert(vertex, vertAdjList);
+    }
+  }
 
   /**
    * removeVertex() removes a vertex from the graph.  All edges incident on the
