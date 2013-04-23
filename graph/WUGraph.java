@@ -1,3 +1,14 @@
+/*
+Whats next? 
+
+AddEdge: Add an edge in the adjacency in the adjacency list with pointers to  something for 4i.
+
+Ask at office hours: 
+- What should we put in as a value for the vertexHashTable
+-- Do we need a vertex class?
+--- Do we update the arrays that are inside Neighbors class?
+*/
+
 /* WUGraph.java */
 
 package graph;
@@ -11,7 +22,8 @@ import list.*;
 
 public class WUGraph {
 	protected HashTableChained vertHashTable;
-	HashTableChained edgeHashTable;
+	protected HashTableChained edgeHashTable;
+	protected DList vertexList;
 	
   /**
    * WUGraph() constructs a graph having no vertices or edges.
@@ -20,7 +32,7 @@ public class WUGraph {
    */
   public WUGraph() {
 	  vertHashTable = new HashTableChained(10); 
-	  edgeHashTable = new HashTableChained(10); 
+	  edgeHashTable = new HashTableChained(10);
   }
 
   /**
@@ -53,7 +65,17 @@ public class WUGraph {
    * Running time:  O(|V|).
    */
   public Object[] getVertices() {
-
+	Object[] vertArray = new Object[];
+	DListNode current = vertList.front();
+	for (int i = 0; i<vertList.length(); i++) {
+		vertArray[i] = current.item();
+		try {
+			current = current.next();
+		} catch (InvalidNodeException INE) {
+			System.err.println(INE);
+		}
+	}
+	return vertArray;
   }
 
   /**
@@ -65,8 +87,9 @@ public class WUGraph {
    */
   public void addVertex(Object vertex){
     if (!isVertex(vertex)) {
-      DList vertAdjList = new DList();
-      vertHashTable.insert(vertex, vertAdjList);
+        DList vertAdjList = new DList();
+	vertexList.insertBack(vertex);
+	vertHashTable.insert(vertex, vertAdjList);
     }
   }
 
@@ -127,7 +150,18 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public void addEdge(Object u, Object v, int weight);
+  public void addEdge(Object u, Object v, int weight) {
+  	if (isVertex(u) && isVertex(v)) {
+  		VertexPair tempVertex = new VertexPair(u, v);
+  		if (isEdge(u, v)) {
+  			edgeHashTable.find(tempVertex).value = weight;	
+  		} else {
+  			edgeHashTable.insert(tempVertex, weight);
+  			vertHashTable.find(u).value.insertBack(v);
+  			vert
+  		}
+  	}
+  }
 
   /**
    * removeEdge() removes an edge (u, v) from the graph.  If either of the
