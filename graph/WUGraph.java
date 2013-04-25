@@ -130,7 +130,9 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public int degree(Object vertex);
+  public int degree(Object vertex){
+  	return vertHashTable.find(vertex).value().length();
+  }
 
   /**
    * getNeighbors() returns a new Neighbors object referencing two arrays.  The
