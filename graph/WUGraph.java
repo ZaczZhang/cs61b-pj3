@@ -101,16 +101,25 @@ public class WUGraph {
    * Running time:  O(d), where d is the degree of "vertex".
    */
   public void removeVertex(Object vertex) {
-  	DList removeVertAL = vertHashTable.find(vertex).value();
-  	DListNode cursor = vertexAL.front();
-  	for (int i = 0; i<vertexAL.length(); i++) {
-  		DList removeEdges = vertHashTable.find(cursor).value();
-  		DListNode cursorEdge = removeEdges.front();
-  		for (int j = 0; j<removeEdges.length(); j++) {
-  			VertexPair vPair = new VertexPair(vertex, cursorEdge)
-  			if (cursorEdge == )
-  		}
-  	}
+    DList removeVertAL = vertHashTable.find(vertex).value();
+    DListNode cursor = vertexAL.front();
+    for (int i = 0; i<vertexAL.length(); i++) {
+    	if (cursor.item()[0] == vertex) {
+    		try {
+	    		cursor.item()[1].remove();
+	    		if (cursor != removeVertAL.back()) {
+	    			cursor = cursor.next();
+		    		cursor.prev().remove();
+	    		} else {
+	    			cursor = cursor.remove();
+	    		}
+	    		edgeHashTable.remove(vertex);
+    		} catch (InvalidNodeException INE) {
+    			System.err.println(INE);
+    		}
+    		break;
+    	}
+    }
   }
 
   /**
@@ -163,7 +172,13 @@ public class WUGraph {
   			earray[i] = curr.item();
   			VertexPair temp = new VertexPair(vertex, curr.item());
   			warray[i] = edgeHashTable.find(temp).value();
-  			curr = curr.next();
+  			try {
+  				if (curr != nlist.back() {
+	  				curr = curr.next();
+				}
+			} catch (InvalidNodeException INE) {
+  				System.err.println(INE);
+  			}
   		}
   		now.neighborList = earray;
   		now.weightList = warray;
@@ -183,13 +198,19 @@ public class WUGraph {
    */
   public void addEdge(Object u, Object v, int weight) {
   	if (isVertex(u) && isVertex(v)) {
+  		Object[] tempInsertion = new Object[2];
   		VertexPair tempVertex = new VertexPair(u, v);
   		if (isEdge(u, v)) {
-  			edgeHashTable.find(tempVertex).value = weight;	
+  			edgeHashTable.remove(tempVertex);
+  			edgeHashTable.insert(tempVertex, weight);
   		} else {
   			edgeHashTable.insert(tempVertex, weight);
-  			vertHashTable.find(u).value.insertBack(v);
-  			vert
+  			tempInsertion[0] = v;
+  			vertHashTable.find(u).value().insertBack(tempInsertion);
+  			tempInsertion[0] = u;
+  			vertHashTable.find(v).value().insertBack(tempInsertion);
+  			vertHashTable.find(u).value().back().item()[1] = vertHashTable.find(v).value().back();
+  			vertHashTable.find(v).value().back().item()[1] = vertHashTable.find(u).value().back();
   		}
   	}
   }
@@ -203,8 +224,28 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void removeEdge(Object u, Object v){
+  	if (isVertex(u) && isVertex(v)) {
 	  VertexPair edgeRemoved = new VertexPair(u, v);
-	  edgeHashTable.remove(edgeRemoved);
+	  if (isEdge(edgeRemoved)) {
+	  	edgeHashTable.remove(edgeRemoved);
+	  	DList vertEdges = vertHashTable.find(u).value();
+	  	DListNode cursor = vertEdges.front();
+	  	for (int i = 0; i<vertEdges.length(); i++) {
+	  		if (cursor.item()[0] == v) {
+	  			cursor.item()[1].remove();
+	  			cursor.remove();
+	  			break;
+	  		}
+	  		try {
+	  			if (cursor != vertEdges.back() {
+	  				cursor = cursor.next();
+	  			}
+	  		} catch (InvalidNodeException INE) {
+	  			System.err.println(INE);
+	  		}
+	  	}
+	  } 
+  	}
   }
 
   /**
