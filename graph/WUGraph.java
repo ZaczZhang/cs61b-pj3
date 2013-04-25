@@ -158,8 +158,10 @@ public class WUGraph {
   		int warray[] = new int[nlist.length()];
   		DListNode curr = nlist.front();
   		for(int i = 0; i < nlist.length(); i++){
-  			earray[i] = curr.item;
-			curr = curr.next;
+  			earray[i] = curr.item();
+  			VertexPair temp = new VertexPair(vertex, curr.item());
+  			warray[i] = edgeHashTable.find(temp).value();
+  			curr = curr.next();
   		}
   		now.neighborList = earray;
   		now.weightList = warray;
