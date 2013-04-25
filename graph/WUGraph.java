@@ -150,7 +150,23 @@ public class WUGraph {
    *
    * Running time:  O(d), where d is the degree of "vertex".
    */
-  public Neighbors getNeighbors(Object vertex);
+  public Neighbors getNeighbors(Object vertex){
+  	Neighbors now = new Neighbors();
+  	if(isVertex(vertex){
+  		DList nlist = vertHastTable.find(vertex).value();
+  		Object earray[] = new Object[nlist.length()];
+  		int warray[] = new int[nlist.length()];
+  		DListNode curr = nlist.front();
+  		for(int i = 0; i < nlist.length(); i++){
+  			earray[i] = curr.item;
+			curr = curr.next;
+  		}
+  		now.neighborList = earray;
+  		now.weightList = warray;
+  	}
+  	return now;
+
+  }
 
   /**
    * addEdge() adds an edge (u, v) to the graph.  If either of the parameters
