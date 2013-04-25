@@ -100,7 +100,18 @@ public class WUGraph {
    *
    * Running time:  O(d), where d is the degree of "vertex".
    */
-  public void removeVertex(Object vertex);
+  public void removeVertex(Object vertex) {
+  	DList removeVertAL = vertHashTable.find(vertex).value();
+  	DListNode cursor = vertexAL.front();
+  	for (int i = 0; i<vertexAL.length(); i++) {
+  		DList removeEdges = vertHashTable.find(cursor).value();
+  		DListNode cursorEdge = removeEdges.front();
+  		for (int j = 0; j<removeEdges.length(); j++) {
+  			VertexPair vPair = new VertexPair(vertex, cursorEdge)
+  			if (cursorEdge == )
+  		}
+  	}
+  }
 
   /**
    * isVertex() returns true if the parameter "vertex" represents a vertex of
@@ -139,23 +150,7 @@ public class WUGraph {
    *
    * Running time:  O(d), where d is the degree of "vertex".
    */
-  public Neighbors getNeighbors(Object vertex){
-  	Neighbors now = new Neighbors();
-  	if(isVertex(vertex){
-  		DList nlist = vertHastTable.find(vertex).value();
-  		Object earray[] = new Object[nlist.length()];
-  		int warray[] = new int[nlist.length()];
-  		DListNode curr = nlist.front();
-  		for(int i = 0; i < nlist.length(); i++){
-  			earray[i] = curr.item;
-			curr = curr.next;
-  		}
-  		now.neighborList = earray;
-  		now.weightList = warray;
-  	}
-  	return now;
-
-  }
+  public Neighbors getNeighbors(Object vertex);
 
   /**
    * addEdge() adds an edge (u, v) to the graph.  If either of the parameters
