@@ -232,7 +232,9 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public int weight(Object u, Object v) {
-	  
+	  VertexPair temp = new VertexPair(u, v);
+	  int weight = edgeHashTable.find(temp).value();
+	  return weight;
   }
 
 }
