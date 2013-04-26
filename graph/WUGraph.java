@@ -1,11 +1,7 @@
 /*
 Whats wrong?
 
-So, basically, When an edge is added, something is either wrong with
-self-edges or edges where the vertex is switched (for example, 3, 7 & 7, 3)
-Thus, in getNeighbors(), the edgearray is returning the wrong result.
-
-This compiles nicely, and goes through most of the test code well. 
+Adding an edge calls for InvalidNodeException
 
 */
 
@@ -23,7 +19,7 @@ import list.*;
 public class WUGraph {
   protected HashTableChained vertHashTable;
   protected HashTableChained edgeHashTable;
-  protected DList vertList = new DList();
+  protected DList vertList = new DList(); // Keeps track of vertices for getNeighbors & getVertices
   
   /**
    * WUGraph() constructs a graph having no vertices or edges.
@@ -65,9 +61,10 @@ public class WUGraph {
    * Running time:  O(|V|).
    */
   public Object[] getVertices() {
-  Object[] vertArray = new Object[vertList.length()];
+  Object[] vertArray = new Object[vertList.length()]; // Array of vertexes (output)
   DListNode current = (DListNode) vertList.front();
-  for (int i = 0; i<vertList.length(); i++) {
+  for (int i = 0; i<vertList.length(); i++) { 
+    /* Traverse list of vertices and put every item into the output array. */
     try {
       vertArray[i] = current.item();
       current = (DListNode) current.next();
@@ -88,12 +85,13 @@ public class WUGraph {
    */
   public void addVertex(Object vertex){
     if (!isVertex(vertex)) {
-        DList vertAdjList = new DList();
-  vertList.insertBack(vertex);
-  Object[] vertValue = new Object[2];
-  vertValue[0] = vertAdjList;
-  vertValue[1] = vertList.back();
-  vertHashTable.insert(vertex, vertValue);
+      DList vertAdjList = new DList();
+      vertList.insertBack(vertex);
+      Object[] vertValue = new Object[2];
+      /*  Keeps track of [0] the adjacency list & [1] Its reference in the DList of vertices */
+      vertValue[0] = vertAdjList;
+      vertValue[1] = vertList.back();
+      vertHashTable.insert(vertex, vertValue);
     }
   }
 
@@ -108,21 +106,20 @@ public class WUGraph {
     if (isVertex(vertex)) {
     DList removeVertAL = (DList) ((Object[]) vertHashTable.find(vertex).value())[0];
     try {
-      ((DListNode) ((Object[]) vertHashTable.find(vertex).value())[1]).remove();
+      ((DListNode) ((Object[]) vertHashTable.find(vertex).value())[1]).remove(); // Remove From DList of vertices.
     } catch (InvalidNodeException INE) {
       System.err.println(INE);
     }
     DListNode cursor = (DListNode) removeVertAL.front();
     for (int i = 0; i<removeVertAL.length(); i++) {
         try {
-          if (((Object[]) cursor.item())[0] == vertex) {
+            /*  Remove edges that involve this vertex from the edgeHashTable
+                Remove half-edges from other vertices' adjLists*/
+            VertexPair edgeRemoving = new VertexPair(vertex, ((Object[]) ((DListNode) ((Object[]) cursor.item())[1]).item())[0]);
+            edgeHashTable.remove(edgeRemoving);
             ((DListNode) ((Object[]) cursor.item())[1]).remove();
-          }
           if (cursor != removeVertAL.back()) {
             cursor = (DListNode) cursor.next();
-            cursor.prev().remove();
-          } else {
-            cursor.remove();
           }
         } catch (InvalidNodeException INE) {
           System.out.println("129");
@@ -131,7 +128,7 @@ public class WUGraph {
         break;
       }
       vertHashTable.remove(vertex);
-    }
+   }
   }
 
   /**
@@ -176,7 +173,8 @@ public class WUGraph {
   public Neighbors getNeighbors(Object vertex){
     Neighbors now = new Neighbors();
     if(isVertex(vertex)) {
-      DList nlist = (DList) ((Object[]) vertHashTable.find(vertex).value())[0];
+      DList nlist = (DList) ((Object[]) vertHashTable.find(vertex).value())[0]; // the vertex's adjList
+      System.out.println("nlist's length is: " + nlist.length());
       if (nlist.length() <= 0) {
         return null;
       }
@@ -185,6 +183,11 @@ public class WUGraph {
       DListNode curr = (DListNode) nlist.front();
       for(int i = 0; i < nlist.length(); i++){
         try {
+          /*
+            Sets the cells of the array of neighbors to the neighbors of the vertex's adjList
+            Sets the cells of the weight array to the weight of the edge between the vertex &
+            it's neighbor. 
+          */
         earray[i] = ((Object[]) curr.item())[0];
         VertexPair temp = new VertexPair(vertex, ((Object[]) curr.item())[0]);
         warray[i] = (Integer) edgeHashTable.find(temp).value();
@@ -216,23 +219,38 @@ public class WUGraph {
     if (isVertex(u) && isVertex(v)) {
       VertexPair tempVertex = new VertexPair(u, v);
       if (isEdge(u, v)) {
+        /* If it's already an edge, remove the edge from the hashTable then insert it 
+        again with new weight.  */
         edgeHashTable.remove(tempVertex);
         edgeHashTable.insert(tempVertex, weight);
       } else {
+        /*
+          if it's not already an edge, insert it into the hashtable, then insert it 
+          declare it's [0]  
+        */
         edgeHashTable.insert(tempVertex, weight);
-        Object[] tempInsertion = new Object[2];
-        tempInsertion[0] = v;
-        ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertion);
-        if (!u.equals(v)) {
-          tempInsertion[0] = u;
-          ((DList) ((Object[]) vertHashTable.find(v).value())[0]).insertFront(tempInsertion);
-          try {
-            ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).back().item())[1] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
-            ((Object[]) ((DList) ((Object[]) vertHashTable.find(v).value())[0]).back().item())[1] = ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front();
-          } catch (InvalidNodeException INE) {
-            System.out.println("232");
-            System.err.println(INE);
-          }
+          if (u.equals(v)) {
+            Object[] tempInsertion = new Object[2];
+            try {
+            ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertion);
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[0] = v;
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
+            } catch (InvalidNodeException INEIN) {
+              System.err.println(INEIN);
+              System.out.println("inner 1");
+            }
+          } else {
+            try {
+            Object[] tempInsertion = new Object[2];
+            ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertion);
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[0] = v;
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front().item())[0] = u;
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
+            ((Object[]) ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front();
+          } catch (InvalidNodeException INEIN) {
+              System.err.println(INEIN);
+              System.out.println("inner 2");
+            }
         }
       }
     }
