@@ -110,7 +110,7 @@ public class HashTableChained implements Dictionary {
       size++;
       double loadFactor = (numOfBucketsUsed/((float) numOfBuckets));
       if (loadFactor > .75) {
-    	  hashTable.resize();
+        resize();
       }
     return returnEntry;
   }
@@ -204,19 +204,19 @@ public class HashTableChained implements Dictionary {
         System.out.println("n/N ratio is: " + loadFactor + ". It should be around .64 with numOfBucketsUsed being " + numOfBucketsUsed + " and buckets being " + numOfBuckets + " & number of entries stored (size): " + size);
     }
     
-    public void resize() {
-    	HashTableChained resizedHashTable = new HashTableChained(numOfBuckets*2);
-    	for (int i = 0; i<numOfBuckets; i++) {
-    		DListNode cursor = hashTable[i].front();
-    		for (int j = 0; j<((DList) hashTable[i]).length(); j++) {
-    			try {
-    				resizedHashTable.insert(cursor.item().key, cursor.item().value);
-    				cursor = cursor.next();
-    			} catch(InvalidNodeException INE) {
-    				System.err.println(INE);
-    			}
-    		}
-    	}
-    	this = resizedHashTable;
+public void resize() {
+        DList[] resizedHashTable = new DList[numOfBuckets*2];
+        hashTable = resizedHashTable;
+        for (int i = 0; i < numOfBuckets; i++) {
+            DListNode cursor = (DListNode) ((DList) hashTable[i]).front();
+            for (int j = 0; j<((DList) hashTable[i]).length(); j++) {
+                    try {
+                        this.insert(((Entry)cursor.item()).key(), ((Entry)cursor.item()).value());
+                        cursor = (DListNode)cursor.next();
+                    } catch(InvalidNodeException INE) {
+                        System.err.println(INE);
+                    }
+            }
+        }
     }
 }
