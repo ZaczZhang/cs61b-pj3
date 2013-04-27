@@ -1,8 +1,10 @@
 /*
-5/7 ON AUTOGRADER! 
+7/7 ON AUTOGRADER! 
 
-What's wrong? Something with RemoveVertex I believe. RemoveVertex is not removing 
-ALL of the edges related to that vertex. Thus it is affecting getNeighbors.
+What's Next? 
+
+Well, first off, I guess the most important step is to finish Kruskal's algorithm.
+Next off, clean out the messy code (especially in getNeighbors & addEdge).
 
 */
 
@@ -104,23 +106,20 @@ public class WUGraph {
   public void removeVertex(Object vertex) {
     if (isVertex(vertex)) {
     DList removeVertAL = (DList) ((Object[]) vertHashTable.find(vertex).value())[0];
-    while(true) {
-        try {
-          if (removeVertAL.length() == 0) {
-            break;
-          }
-          removeEdge(vertex, ((Object[]) removeVertAL.front().item())[0]);
-          removeVertAL.front().remove();
-                  } catch (InvalidNodeException INE) {
-          System.out.println("129");
-          System.err.println(INE);
-        }
-      }
-    try {
-      ((DListNode) ((Object[]) vertHashTable.find(vertex).value())[1]).remove();
+    int iter = removeVertAL.length();
+    for (int i = 0; i<iter; i++) {
+      try {
+      removeEdge(vertex, ((Object[]) removeVertAL.front().item())[0]);
+
     } catch (InvalidNodeException INE) {
       System.err.println(INE);
     }
+    }
+      try {
+        ((DListNode) ((Object[]) vertHashTable.find(vertex).value())[1]).remove();
+      } catch (InvalidNodeException INE) {
+        System.err.println(INE);
+      }
       vertHashTable.remove(vertex);
     }
   }
@@ -215,18 +214,19 @@ public class WUGraph {
       if (isEdge(u, v)) {
         ((Object[]) edgeHashTable.find(tempVertex).value())[0] = weight;
       } else {
-        Object[] tempInsertion = new Object[2];
+        Object[] tempInsertionU = new Object[2];
+        Object[] tempInsertionV = new Object[2];
         try{
         if (u.equals(v)) {
-          tempInsertion[0] = v;
-        ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertion);
+          tempInsertionU[0] = v;
+        ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertionU);
         ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
       }
        else if (!u.equals(v)) {
-          tempInsertion[0] = u;
-          ((DList) ((Object[]) vertHashTable.find(v).value())[0]).insertFront(tempInsertion);
-          tempInsertion[0] = v;
-        ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertion);
+          tempInsertionV[0] = u;
+          ((DList) ((Object[]) vertHashTable.find(v).value())[0]).insertFront(tempInsertionV);
+          tempInsertionU[0] = v;
+        ((DList) ((Object[]) vertHashTable.find(u).value())[0]).insertFront(tempInsertionU);
             ((Object[]) ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
             ((Object[]) ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front();
         }
