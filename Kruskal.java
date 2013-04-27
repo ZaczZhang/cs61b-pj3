@@ -17,23 +17,23 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
     public static WUGraph minSpanTree(WUGraph g) {
-        WUGraph T = new WUGraph();
-        Object[] vertices = g.getVertices();
-        for (int i = 0; i < vertices.length; i++) {
-            T.addVertex(vertices[i]);
-        }
-        
-        DList edgeList = new DList(); 
-        //Neighbors neighbor = 
-        for (int i = 0; i < vertices.length; i++) {
-            Neighbors neighbor = g.getNeighbors(vertices[i]);
-            Object[] neighborList = neighbor.neighborList;
-            int[] weightList = neighbor.weightList;
-            for (int c = 0; c < neighborList.length; c++) {
-                Edge e = new Edge(vertices[i], neighborList[c], weightList[c]);  
-                edgeList.insertFront(e);
-            }
-        }
+      WUGraph t = new WUGraph();
+	    Object[] vert = g.getVertices();
+	    DList wEdge = new DList();
+
+	    for(int i = 0; i < vert.length; i++){
+		    t.addVertex(vert[i]);
+		
+	    	Neighbors neighbor = g.getNeighbors(vert[i]);
+	    	Object[] vertNeighbors = neighbor.neighborList;
+		    int[] weightList = neighbor.weightList;
+
+	    	for(int j = 0; j < vertNeighbors.length; j++){
+		    	Edge edge = new Edge(vert[i], vertNeighbors[j], weightList[j]);
+		    	wEdge.insertBack(edge);
+		    }
+    	}
+    }
         
         Edge[] edgeArray = new Edge[edgeList.length()];
         mergeSort(edgeArray);
@@ -44,7 +44,7 @@ public class Kruskal {
         }
         
         //VertexPair pair = new VertexPair();
-        return T;
+        return t;
     }
 
     
