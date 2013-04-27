@@ -35,7 +35,7 @@ public class Kruskal {
     	}
     }
         
-        Edge[] edgeArray = new Edge[edgeList.length()];
+        Edge[] edgeArray = new Edge[wEdge.length()];
         mergeSort(edgeArray);
         
         HashTableChained vertexTable = new HashTableChained();
