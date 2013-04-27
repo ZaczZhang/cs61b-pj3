@@ -3,6 +3,7 @@
 import graph.*;
 import set.*;
 import list.*;
+import dict.*;
 
 /**
  * The Kruskal class contains the method minSpanTree(), which implements
