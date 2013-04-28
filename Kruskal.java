@@ -19,33 +19,38 @@ public class Kruskal {
   public static WUGraph minSpanTree(WUGraph g){
 	WUGraph t = new WUGraph();
 	Object[] vert = g.getVertices();
-	//HashTableChained edgeHTC= new HashTableChained();
 	Edge[] edgeArr = new Edge[g.edgeCount()*5];
-	System.out.println("edgeArr.length(): " + edgeArr.length);
 	int edgeIter = 0;
 	for(int i = 0; i < vert.length; i++){
 		t.addVertex(vert[i]);
-
 		Neighbors neighbor = g.getNeighbors(vert[i]);
 		Object[] vertNeighbors = neighbor.neighborList;
-		for (int z = 0; z<vertNeighbors.length; z++) {
-			System.out.println("neighbor[z]: " + vertNeighbors[z]);
-		}
 		int[] weightList = neighbor.weightList;
-
 		for(int j = 0; j < vertNeighbors.length; j++){
 			Edge edge = new Edge(vert[i], vertNeighbors[j], weightList[j]);
-			System.out.println("weight: " + weightList[j]);
 			edgeArr[edgeIter] = edge;
 			edgeIter++;
-			/*if (edgeHTC.find(edge) == null) {
-				edgeHTC.insert(edge, edge.getWeight());
-				edgeArr[edgeIter] = edge;
-				edgeIter++;
-			}*/
 		}
 	}
 	quicksort(edgeArr, edgeIter-1);
+	DisjointSets edgeDJS = new DisjointSets(g.vertexCount());
+	HashTableChained vertHTC = new HashTableChained(g.vertexCount());
+	for (int k = 0; k < g.vertexCount(); k++) {
+		vertHTC.insert(vert[k], k);
+	}
+	for (int l = 0, m = t.edgeCount(); m < g.vertexCount() -1; l++) {
+		Edge tempEdge = edgeArr[l];
+		if (tempEdge == null) break;
+		int firstWeight = Integer.MIN_VALUE;
+		int secondWeight = Integer.MIN_VALUE;
+		firstWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex1()).value());
+		secondWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex2()).value());
+		if (edgeDJS.find(firstWeight) != edgeDJS.find(secondWeight)) {
+			System.out.println("Adding first & sec to spantree: " + tempEdge.getWeight());
+			t.addEdge(tempEdge.getVertex1(), tempEdge.getVertex2(), tempEdge.getWeight());
+			edgeDJS.union(firstWeight, secondWeight);
+		}
+	}
 	return t;
   }
 
