@@ -195,6 +195,8 @@ public class WUGraph {
       now.neighborList = earray;
       now.weightList = warray;
     }
+    for (int i = 0; i<now.weightList.length; i++) {
+    }
     return now;
 
   }
