@@ -1,3 +1,5 @@
+//CHECK RESIZE!!
+
 /* HashTableChained.java */
 
 package dict;
@@ -105,7 +107,10 @@ public class HashTableChained implements Dictionary {
       Entry returnEntry = new Entry();
       returnEntry.key = key;
       returnEntry.value = value;
-      if (hashTable != null && hashTable[compFunction(key.hashCode())] != null) {
+      if (hashTable == null) {
+        hashTable = new Object[101];
+      }
+      if (hashTable[compFunction(key.hashCode())] != null) {
       if (((DList) hashTable[compFunction(key.hashCode())]).length() == 0) numOfBucketsUsed++;
       ((DList) hashTable[compFunction(key.hashCode())]).insertFront(returnEntry);
       size++;
@@ -132,7 +137,7 @@ public class HashTableChained implements Dictionary {
   public Entry find(Object key) {
       Entry returnEntry = new Entry();
       returnEntry = null;
-      if (hashTable != null && hashTable[compFunction(key.hashCode())] != null) {
+      if (hashTable[compFunction(key.hashCode())] != null) {
       DListNode cursor = (DListNode) ((DList) hashTable[compFunction(key.hashCode())]).front();
       try {
           for(int i = 0; i<((DList) hashTable[compFunction(key.hashCode())]).length(); i++) { 
