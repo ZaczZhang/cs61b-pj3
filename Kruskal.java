@@ -1,3 +1,11 @@
+/*
+	3/3 ON AUTOGRADER
+	What's next?
+	-- Clean code
+	-- Comments
+	-- Indentation
+*/
+
 /* Kruskal.java */
 
 import graph.*;
@@ -46,7 +54,6 @@ public class Kruskal {
 		firstWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex1()).value());
 		secondWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex2()).value());
 		if (edgeDJS.find(firstWeight) != edgeDJS.find(secondWeight)) {
-			System.out.println("Adding first & sec to spantree: " + tempEdge.getWeight());
 			t.addEdge(tempEdge.getVertex1(), tempEdge.getVertex2(), tempEdge.getWeight());
 			edgeDJS.union(firstWeight, secondWeight);
 		}
@@ -59,13 +66,7 @@ public class Kruskal {
    *  @param a an array of int items.
    **/
   public static void quicksort(Edge[] a, int hi) {
-  	for(int i = 0; i<hi; i++) {
-   		//System.out.println("Weight " + i + " is: " + a[i].getWeight());
-   }
     quicksort(a, 0, hi);
-    for(int k = 0; k<hi; k++) {
-   		//System.out.println("Weight " + k + " is: " + a[k].getWeight());
-   }
   }
 
    /**
@@ -139,6 +140,18 @@ public class Kruskal {
          quicksort(a, lo, hi0);
        }
      }
+   }
+   public static void main(String[] args) {
+   	/*WUGraph wug = new WUGraph(); 
+   	wug.addVertex(99);
+   	wug.addVertex(77);
+   	wug.addVertex(22);
+   	wug.addVertex(55);
+   	wug.addEdge(99, 22, 3);
+   	wug.addEdge(99, 55, 6);
+   	wug.addEdge(22, 77, 5);
+   	wug.addEdge(99, 77, 8);
+   	minSpanTree(wug);*/
    }
 
 }
