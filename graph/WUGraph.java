@@ -1,11 +1,10 @@
 /*
 7/7 ON AUTOGRADER! 
 
-What's Next? 
-
-Well, first off, I guess the most important step is to finish Kruskal's algorithm.
-Next off, clean out the messy code (especially in getNeighbors & addEdge).
-
+Whats next? Clean the code.
+  -- Indentations
+  -- classes instead of arrays
+  -- proper caps
 */
 
 /* WUGraph.java */
@@ -71,7 +70,6 @@ public class WUGraph {
       vertArray[i] = current.item();
       current = (DListNode) current.next();
     } catch (InvalidNodeException INE) {
-      System.out.println("75");
       System.err.println(INE);
     }
   }
@@ -179,23 +177,20 @@ public class WUGraph {
       DListNode curr = (DListNode) nlist.front();
       for(int i = 0; i < nlist.length(); i++){
         try {
-        earray[i] = ((Object[]) curr.item())[0];
-        VertexPair temp = new VertexPair(vertex, ((Object[]) curr.item())[0]);
-        if (isEdge(vertex, ((Object[]) curr.item())[0])) {
-        warray[i] = (Integer) ((Object[]) edgeHashTable.find(temp).value())[0];
+          earray[i] = ((Object[]) curr.item())[0];
+          VertexPair temp = new VertexPair(vertex, ((Object[]) curr.item())[0]);
+          if (isEdge(vertex, ((Object[]) curr.item())[0])) {
+            warray[i] = (Integer) ((Object[]) edgeHashTable.find(temp).value())[0];
+          }
           if (curr != nlist.back()) {
-            curr = (DListNode) curr.next();
-        }
-      } 
-      } catch (InvalidNodeException INE) {
-          System.out.println("193");
+              curr = (DListNode) curr.next();
+            }
+        } catch (InvalidNodeException INE) {
           System.err.println(INE);
         }
       }
       now.neighborList = earray;
       now.weightList = warray;
-    }
-    for (int i = 0; i<now.weightList.length; i++) {
     }
     return now;
 
@@ -211,7 +206,7 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void addEdge(Object u, Object v, int weight) {
-    if (isVertex(u) && isVertex(v)) {
+     if (isVertex(u) && isVertex(v)) {
       VertexPair tempVertex = new VertexPair(u, v);
       if (isEdge(u, v)) {
         ((Object[]) edgeHashTable.find(tempVertex).value())[0] = weight;
@@ -233,7 +228,6 @@ public class WUGraph {
             ((Object[]) ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front().item())[1] = ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front();
         }
         } catch (InvalidNodeException INE) {
-            System.out.println("232");
             System.err.println(INE);
           }
       Object[] weightAndNodes = new Object[3];
@@ -241,7 +235,7 @@ public class WUGraph {
       weightAndNodes[1] = ((DList) ((Object[]) vertHashTable.find(u).value())[0]).front();
       weightAndNodes[2] = ((DList) ((Object[]) vertHashTable.find(v).value())[0]).front();
       edgeHashTable.insert(tempVertex, weightAndNodes);
-      }
+    }
     }
   }
 
@@ -262,7 +256,6 @@ public class WUGraph {
             ((DListNode) ((Object[]) edgeHashTable.find(edgeRemoved).value())[2]).remove();
           }
         } catch (InvalidNodeException INE) {
-          System.out.println("265");
           System.err.println(INE);
         }
       edgeHashTable.remove(edgeRemoved);
