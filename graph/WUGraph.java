@@ -5,6 +5,7 @@ Whats next? Clean the code.
   -- Indentations
   -- classes instead of arrays
   -- proper caps
+  -- COMMENTS!
 */
 
 /* WUGraph.java */
