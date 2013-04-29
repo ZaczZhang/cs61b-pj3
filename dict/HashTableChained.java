@@ -1,4 +1,4 @@
-//CHECK RESIZE!!
+//CHECK RESIZE!!!
 
 /* HashTableChained.java */
 
