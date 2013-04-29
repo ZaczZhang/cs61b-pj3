@@ -3,14 +3,22 @@ public class Edge {
     private Object vertex2;
     private int weight;
 
-    public Edge (Object start, Object end, int weight) {
+    public Edge (Object start, Object end, int theWeight) {
         vertex1 = start;
         vertex2 = end;
-        weight = this.weight;
+        weight = theWeight;
     }
 
     public int getWeight() {
         return weight;
+    }
+
+    public Object getVertex1() {
+      return vertex1;
+    }
+
+    public Object getVertex2() {
+      return vertex2;
     }
 
     //public int hashCode() {
