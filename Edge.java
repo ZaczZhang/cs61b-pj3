@@ -1,3 +1,5 @@
+//EDGE
+
 public class Edge {
     private Object vertex1;
     private Object vertex2;
