@@ -9,9 +9,9 @@ import list.*;
   2 vertices (may be identical) that it connects as well as its weight.
   **/
   public class GraphEdge {
-    protected int weight;
-  	protected DListNode vertex1Node;
-  	protected DListNode vertex2Node;
+  	private int weight;
+  	private DListNode vertex1Node;
+  	private DListNode vertex2Node;
 
   	public GraphEdge(int theWeight, DListNode node1, DListNode node2) {
   		weight = theWeight;
