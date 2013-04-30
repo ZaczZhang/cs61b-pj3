@@ -99,7 +99,7 @@ public class WUGraph {
       try { 
         Vertex theVertex = (Vertex) vertHashTable.find(vertex).value();
         DList adjList = theVertex.getAdjList();
-        HalfEdge theHalfEdge = null;
+        Object theHalfEdge = null;
         int iter = adjList.length();
         for (int i = 0; i<iter; i++) {
         /*
