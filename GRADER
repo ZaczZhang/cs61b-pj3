@@ -1,0 +1,18 @@
+GRADER
+
+Name: Kyle Boss
+Login: cs61b-pl
+
+Name: Richa Sheth
+Login: cs61b-jt
+
+Name: Emily Xie
+Login: cs61b-op
+
+In Project 3, we decided to utilize several data structures taught in CS61B. The first data structure used is the Hashtable. The Hashtable was used in WUGraph to store all of the vertices and edges. This allowed for constant time in finding, inserting, and removing elements from them. Specifically in removeVertex(). In order for removeVertex() to work in |d| time, [automatically resizing] hashtables and the utilization of "Half-Edges" were of utmost importance. First, we represented every vertex by a Vertex class, which remembered its location in a MASTER vertices DList (for O(1) time removal) as well as it's ADJList. Secondly, I implemented a Half-Edge class so we can represent the opposite side of the edges more easily. So a half-edge stores for every vertex u in the edge (u, v), the node in v's adjacency list for quick removal from the adjacency list as well as the vertex for easy removal of the edge. So in the step by step process: First the hashTable finds the vertex it wants to remove (O(1)), then it goes through every vertex of the adjacency list (O(d)), and removes the half-edges from u & v's adjacency lists (O(1) per half-edge/vertex/node) & the edge that connects them from the edge hashtable (O(1) per half-edge/vertex/node). Finally, it removes the vertex from the vertex hashtable (O(1)).
+
+To implement getVertices(), we maintain a MASTER DList of all the vertices added (taking into account the removals as well) and when getVertices is called, this list is traversed and the vertices are stored in an array which will ultimately be outputted. As stated before, the nodes in this DList are pointed to by Half-Edges, and can be accessed DIRECTLY without the need for any traversal of the list if only one element needed to be picked out for O(1) removal. 
+
+The Edge class is also implemented for the Kruskal's algorithm to find the Minimum Spanning Tree. This objects stores every edge's weight and the vertices that it connects. 
+
+Speaking of Kruskal's algorithm, here is how we implemented it: First we added all of the vertices from the inputted graph to the graph we will output. Then we add all of the edges to an array, then the array is sorted by weights. Then a Disjoint Sets is created and all of the vertices are placed into a hashtable.  Utilizing the hashtable and the disjoint sets, if the vertices that the edge connects are not already connected in the new graph being outputted, the edge is introduced into the graph. 
