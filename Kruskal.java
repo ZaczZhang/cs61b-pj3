@@ -40,7 +40,9 @@ public class Kruskal {
 }
 for (int l = 0, m = t.edgeCount(); m < g.vertexCount() -1; l++) {
   Edge tempEdge = edgeArr[l];
-  if (tempEdge == null) break;
+  if (tempEdge == null) { 
+    break;
+  }
   int firstWeight = Integer.MIN_VALUE;
   int secondWeight = Integer.MIN_VALUE;
   firstWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex1()).value());
