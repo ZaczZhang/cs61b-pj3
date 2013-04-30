@@ -1,5 +1,3 @@
-//CHECK RESIZE!!!
-
 /* HashTableChained.java */
 
 package dict;
@@ -22,10 +20,10 @@ public class HashTableChained implements Dictionary {
   /**
    *  Place any data fields here.
    **/
-    protected int size;
-    protected int numOfBucketsUsed;// n
-    protected int numOfBuckets; // N
-    protected Object[] hashTable;
+  protected int size;
+  protected int numOfBucketsUsed;// n
+  protected int numOfBuckets; // N
+  protected Object[] hashTable;
 
 
   /** 
@@ -35,13 +33,13 @@ public class HashTableChained implements Dictionary {
    **/
 
   public HashTableChained(int sizeEstimate) {
-      hashTable = new Object[sizeEstimate];
-      size = 0;
-      numOfBuckets = sizeEstimate;
+    hashTable = new Object[sizeEstimate];
+    size = 0;
+    numOfBuckets = sizeEstimate;
       for (int i = 0; i<numOfBuckets; i++) { // Inserts a new DList in all the buckets.
-          hashTable[i] = new DList();
+        hashTable[i] = new DList();
       }
-  }
+    }
 
   /** 
    *  Construct a new empty hash table with a default size.  Say, a prime in
@@ -49,14 +47,13 @@ public class HashTableChained implements Dictionary {
    **/
 
   public HashTableChained() {
-      hashTable = new Object[101];
-      size = 0;
-      numOfBuckets = 101;
+    hashTable = new Object[101];
+    size = 0;
+    numOfBuckets = 101;
       for (int i = 0; i<numOfBuckets; i++) { // Inserts a new DList in all the buckets.
-          //System.out.println("inserting dlists");
-          hashTable[i] = new DList();
+        hashTable[i] = new DList();
       }
-  }
+    }
 
   /**
    *  Converts a hash code in the range Integer.MIN_VALUE...Integer.MAX_VALUE
@@ -67,7 +64,7 @@ public class HashTableChained implements Dictionary {
    **/
 
   int compFunction(int code) {
-      return Math.abs(((127*code + 129) % 16908799) % numOfBuckets); 
+    return Math.abs(((127*code + 129) % 16908799) % numOfBuckets); 
   }
 
   /** 
@@ -88,7 +85,7 @@ public class HashTableChained implements Dictionary {
    **/
 
   public boolean isEmpty() {
-      return (size == 0);
+    return (size == 0);
   }
 
   /**
@@ -105,29 +102,25 @@ public class HashTableChained implements Dictionary {
    **/
 
   public Entry insert(Object key, Object value) {
-      //System.out.println("inserting...");
-      Entry returnEntry = new Entry();
-      returnEntry.key = key;
-      returnEntry.value = value;
-      if (hashTable == null) {
-          //System.out.println("table is null for some reason...");
-        hashTable = new DList[101];
-      }
-      if (hashTable[compFunction(key.hashCode())] != null) {
-          //System.out.println("not = null");
-          if (((DList) hashTable[compFunction(key.hashCode())]).length() == 0) { 
-              System.out.println("increasing numofbuckets used");
-              numOfBucketsUsed++;
-          }
-          ((DList) hashTable[compFunction(key.hashCode())]).insertFront(returnEntry);
-          size++;
-          double loadFactor = (numOfBucketsUsed/((float) numOfBuckets));
-          if (loadFactor > .5) { //change back to .75 later
-              resize();
-          }
+    Entry returnEntry = new Entry();
+    returnEntry.key = key;
+    returnEntry.value = value;
+    if (hashTable == null) {
+      hashTable = new DList[101];
     }
-    return returnEntry;
-  }
+    if (hashTable[compFunction(key.hashCode())] != null) {
+      if (((DList) hashTable[compFunction(key.hashCode())]).length() == 0) { 
+        numOfBucketsUsed++;
+      }
+      ((DList) hashTable[compFunction(key.hashCode())]).insertFront(returnEntry);
+      size++;
+      double loadFactor = (numOfBucketsUsed/((float) numOfBuckets));
+          if (loadFactor > .75) { //change back to .75 later
+            resize();
+          }
+        }
+        return returnEntry;
+      }
 
   /** 
    *  Search for an entry with the specified key.  If such an entry is found,
@@ -142,28 +135,28 @@ public class HashTableChained implements Dictionary {
    **/
 
   public Entry find(Object key) {
-      Entry returnEntry = new Entry();
-      returnEntry = null;
-      if (hashTable[compFunction(key.hashCode())] != null) {
+    Entry returnEntry = new Entry();
+    returnEntry = null;
+    if (hashTable[compFunction(key.hashCode())] != null) {
       DListNode cursor = (DListNode) ((DList) hashTable[compFunction(key.hashCode())]).front();
       try {
-          for(int i = 0; i<((DList) hashTable[compFunction(key.hashCode())]).length(); i++) { 
-              /*Checks every item in bucket for the key given. If it finds a match, set the returnEntry to that match & break.*/ 
-              if (((Entry) cursor.item()).key.equals(key)) {
-                  /* If we find the item, return & break*/
-                  returnEntry = (Entry) cursor.item();
-                  break;
+        for(int i = 0; i<((DList) hashTable[compFunction(key.hashCode())]).length(); i++) { 
+          /*Checks every item in bucket for the key given. If it finds a match, set the returnEntry to that match & break.*/ 
+          if (((Entry) cursor.item()).key.equals(key)) {
+            /* If we find the item, return & break*/
+            returnEntry = (Entry) cursor.item();
+            break;
               } else { //If this is not the item, continue looking.
-                  cursor =(DListNode) cursor.next();
+                cursor =(DListNode) cursor.next();
               }
+            }
           }
+          catch (InvalidNodeException INE) {
+            System.err.println(INE);
+          }
+        }
+        return returnEntry;
       }
-      catch (InvalidNodeException INE) {
-          System.err.println(INE);
-      }
-    }
-    return returnEntry;
-  }
 
   /** 
    *  Remove an entry with the specified key.  If such an entry is found,
@@ -179,28 +172,28 @@ public class HashTableChained implements Dictionary {
    */
 
   public Entry remove(Object key) {
-      Entry returnEntry;
-      returnEntry = null;
-      DListNode cursor = (DListNode) ((DList) hashTable[compFunction(key.hashCode())]).front();
-      try {
-          for(int i = 0; i<((DList) hashTable[compFunction(key.hashCode())]).length(); i++) {
-              /*Finds if the entry exists in the bucket & if it does, removes it*/
-              if(((Entry) cursor.item()).key.equals(key)) {
-                  /*If we find the item we were looking for, remove it*/
-                  returnEntry = (Entry) cursor.item();
-                  cursor.remove();
-                  if (((DList) hashTable[compFunction(key.hashCode())]).length() == 0) 
-                      numOfBucketsUsed--;
-                  size--;
-                  break;
-              } else {
-                  cursor = (DListNode) cursor.next();
-              }
-          }
+    Entry returnEntry;
+    returnEntry = null;
+    DListNode cursor = (DListNode) ((DList) hashTable[compFunction(key.hashCode())]).front();
+    try {
+      for(int i = 0; i<((DList) hashTable[compFunction(key.hashCode())]).length(); i++) {
+        /*Finds if the entry exists in the bucket & if it does, removes it*/
+        if(((Entry) cursor.item()).key.equals(key)) {
+          /*If we find the item we were looking for, remove it*/
+          returnEntry = (Entry) cursor.item();
+          cursor.remove();
+          if (((DList) hashTable[compFunction(key.hashCode())]).length() == 0) 
+            numOfBucketsUsed--;
+          size--;
+          break;
+        } else {
+          cursor = (DListNode) cursor.next();
+        }
       }
-      catch (InvalidNodeException INE) {
-          System.err.println(INE);
-      }
+    }
+    catch (InvalidNodeException INE) {
+      System.err.println(INE);
+    }
     return returnEntry;
   }
 
@@ -209,50 +202,39 @@ public class HashTableChained implements Dictionary {
    */
   public void makeEmpty() {
       for (int i = 0; i<numOfBuckets; i++) { // Makes a new DList for every bucket.
-          hashTable[i] = new DList();
+        hashTable[i] = new DList();
       }
       size = 0;
-  }
-    public void testHelper() {
-        double loadFactor = (numOfBucketsUsed/((float) numOfBuckets));
-        for (int i = 0; i<this.numOfBuckets; i++) {
-            if (hashTable[i] != null) {
-                //System.out.println(hashTable[i] + " has " + ((DList) hashTable[i]).length() + " elements!");
-            }
-        }
-        System.out.println("n/N ratio is: " + loadFactor + ". It should be around .64 with numOfBucketsUsed being " + numOfBucketsUsed + " and buckets being " + numOfBuckets + " & number of entries stored (size): " + size);
     }
     
+    /**
+    resize() -- called when the load factor rises above .75 -- doubles the size of the
+    hashtable and redistributes the elements to their proper new buckets.
+    @params: None
+    @return: None
+    **/
     public void resize() {
-        numOfBuckets = 2*numOfBuckets;
-        DList[] resizedHashTable = new DList[numOfBuckets];
-        hashTable = resizedHashTable;
+      size = 0;
+      Object[] tempHashTable = hashTable;
+      int origNumOfBuckets = numOfBuckets;
+      numOfBuckets = 2*numOfBuckets;
+      hashTable = new Object[numOfBuckets];
         for (int i = 0; i<numOfBuckets; i++) { // Inserts a new DList in all the buckets.
-          //System.out.println("inserting dlists");
           hashTable[i] = new DList();
         }
-        for (int i = 0; i < numOfBuckets; i++) {
-          if (hashTable[i] != null) {
-            DListNode cursor = (DListNode) ((DList) hashTable[i]).front();
-            for (int j = 0; j<((DList) hashTable[i]).length(); j++) {
-                try {
-                    this.insert(((Entry)cursor.item()).key(), ((Entry)cursor.item()).value());
-                    cursor = (DListNode)cursor.next();
-                } 
-                catch(InvalidNodeException INE) {
-                    System.err.println(INE);
-                }
+        for (int i = 0; i < origNumOfBuckets; i++) {
+          if (tempHashTable[i] != null) {
+            DListNode cursor = (DListNode) ((DList) tempHashTable[i]).front();
+            for (int j = 0; j<((DList) tempHashTable[i]).length(); j++) {
+              try {
+                this.insert(((Entry)cursor.item()).key(), ((Entry)cursor.item()).value());
+                cursor = (DListNode)cursor.next();
+              } 
+              catch(InvalidNodeException INE) {
+                System.err.println(INE);
+              }
             }
           }
         }
+      }
     }
-
-    public static void main(String[] args) {
-        HashTableChained table = new HashTableChained();
-        for (int i = 0; i < 100; i++) {
-            //System.out.println((int)(Math.random()*1000));
-            table.insert((int)(Math.random()*1000), 2);
-            table.testHelper();
-        }
-    }
-}
