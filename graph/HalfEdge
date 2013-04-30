@@ -1,0 +1,59 @@
+/* HalfEdge.java */
+
+package graph;
+import list.*;
+
+/**
+  HalfEdge is an object that represents the vertex on the 
+  opposite side of an edge. Every edge with non-identical
+  vertices should have two half-edges.
+  **/
+
+  public class HalfEdge {
+    protected Object halfVertex;
+  	protected DListNode halfNode;
+
+	/**
+		getHalfVertex() returns the vertex that is on the
+		other side of the edge.
+		@params: none
+		@return: halfVertex (the vertex that is on the other
+		side of the edge.)
+**/
+public Object getHalfVertex() {
+	return halfVertex;
+}
+
+	/**
+		getHalfNode() returns the NODE of the Adjacency list
+		that the vertex on the opposite edge resides in.
+		@params: None
+		@return: halfNode (the node of the adjacency list
+		that the vertex on the opposite edge resides in.)
+**/
+public DListNode getHalfNode() {
+	return halfNode;
+}
+
+	/**
+		changeHalfVertex() changes the vertex that is on
+		the other side of the edge.
+		@params: Object newVertex (the new vertex that is
+		on the other side of the edge.)
+		@return: none
+		**/
+		public void changeHalfVertex(Object newVertex) {
+			halfVertex = newVertex;
+		}
+
+	/**
+		changeHalfNode() changes the node of the adjacency
+		list that the vertex on the opposite edge resides in.
+		@params: Object newNode (the new node of the adjacency
+		list that the vertex on the opposite edge resides in.)
+		@return: none
+		**/
+		public void changeHalfNode(DListNode newNode) {
+			halfNode = newNode;
+		}
+	}
