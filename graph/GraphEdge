@@ -1,0 +1,62 @@
+/* GraphEdge.java */
+
+package graph;
+import list.*;
+
+/**
+  GraphEdge is an object that represents Edges that connects vertices
+  in the graph Package to properly construct WUGraphs.  It stores the 
+  2 vertices (may be identical) that it connects as well as its weight.
+  **/
+  public class GraphEdge {
+    protected int weight;
+  	protected DListNode vertex1Node;
+  	protected DListNode vertex2Node;
+
+  	public GraphEdge(int theWeight, DListNode node1, DListNode node2) {
+  		weight = theWeight;
+  		vertex1Node = node1;
+  		vertex2Node = node2;
+  	}
+
+	/**
+		changeWeight() changes the weight of
+		the edge.
+		@params: int newWeight (the new weight of the edge).
+		@return: none a
+		**/
+		public void changeWeight(int newWeight) {
+			weight = newWeight;
+		}
+
+  /**
+  getWeight() returns the edge's weight.
+  @params: none
+  @return: weight (the weight of the edge.)
+  **/
+  public int getWeight() {
+  	return weight;
+  }
+
+  /**
+  getVertex1Node() returns the node where the first vertex 
+  that the edge connects resides in.
+  @params: none
+  @return: vertex1Node (the node where the first vertex that 
+  the edge connects resides in.)
+  **/
+public DListNode getVertex1Node() {
+	return vertex1Node;
+}
+
+  /**
+  getVertex2Node() returns the node where the second vertex 
+  that the edge connects resides in.
+  @params: none
+  @return: vertex2Node (the node where the second vertex that 
+  the edge connects resides in.)
+  **/
+public DListNode getVertex2Node() {
+	return vertex2Node;
+}
+}
