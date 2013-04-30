@@ -4,14 +4,14 @@ package graph;
 import list.*;
 
 /**
-  Vertex is an object that represents a vertex in the graph
+	Vertex is an object that represents a vertex in the graph
 	package. It keeps track of the adjacency list and its location
 	in terms of the list of vertices.
 	**/
 	public class Vertex {
 
-		protected DList adjList;
-		protected DListNode vertListNode;
+		private DList adjList;
+		private DListNode vertListNode;
 		public Vertex() {
 			adjList = new DList();
 		}
