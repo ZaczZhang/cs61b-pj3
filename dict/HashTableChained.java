@@ -115,7 +115,7 @@ public class HashTableChained implements Dictionary {
       ((DList) hashTable[compFunction(key.hashCode())]).insertFront(returnEntry);
       size++;
       double loadFactor = (numOfBucketsUsed/((float) numOfBuckets));
-          if (loadFactor > .75) { //change back to .75 later
+          if (loadFactor > .75) {
             resize();
           }
         }
