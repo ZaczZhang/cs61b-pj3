@@ -1,17 +1,9 @@
-/*
-	3/3 ON AUTOGRADER
-	What's next?
-	-- Clean code
-	-- Comments
-	-- Indentation
-*/
-
 /* Kruskal.java */
 
-import graph.*;
-import set.*;
-import list.*;
-import dict.*;
+  import graph.*;
+  import set.*;
+  import list.*;
+  import dict.*;
 
 /**
  * The Kruskal class contains the method minSpanTree(), which implements
@@ -25,41 +17,41 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g){
-	WUGraph t = new WUGraph();
-	Object[] vert = g.getVertices();
-	Edge[] edgeArr = new Edge[g.edgeCount()*5];
-	int edgeIter = 0;
-	for(int i = 0; i < vert.length; i++){
-		t.addVertex(vert[i]);
-		Neighbors neighbor = g.getNeighbors(vert[i]);
-		Object[] vertNeighbors = neighbor.neighborList;
-		int[] weightList = neighbor.weightList;
-		for(int j = 0; j < vertNeighbors.length; j++){
-			Edge edge = new Edge(vert[i], vertNeighbors[j], weightList[j]);
-			edgeArr[edgeIter] = edge;
-			edgeIter++;
-		}
-	}
-	quicksort(edgeArr, edgeIter-1);
-	DisjointSets edgeDJS = new DisjointSets(g.vertexCount());
-	HashTableChained vertHTC = new HashTableChained(g.vertexCount());
-	for (int k = 0; k < g.vertexCount(); k++) {
-		vertHTC.insert(vert[k], k);
-	}
-	for (int l = 0, m = t.edgeCount(); m < g.vertexCount() -1; l++) {
-		Edge tempEdge = edgeArr[l];
-		if (tempEdge == null) break;
-		int firstWeight = Integer.MIN_VALUE;
-		int secondWeight = Integer.MIN_VALUE;
-		firstWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex1()).value());
-		secondWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex2()).value());
-		if (edgeDJS.find(firstWeight) != edgeDJS.find(secondWeight)) {
-			t.addEdge(tempEdge.getVertex1(), tempEdge.getVertex2(), tempEdge.getWeight());
-			edgeDJS.union(firstWeight, secondWeight);
-		}
-	}
-	return t;
-  }
+   WUGraph t = new WUGraph();
+   Object[] vert = g.getVertices();
+   Edge[] edgeArr = new Edge[g.edgeCount()*5];
+   int edgeIter = 0;
+   for(int i = 0; i < vert.length; i++){
+    t.addVertex(vert[i]);
+    Neighbors neighbor = g.getNeighbors(vert[i]);
+    Object[] vertNeighbors = neighbor.neighborList;
+    int[] weightList = neighbor.weightList;
+    for(int j = 0; j < vertNeighbors.length; j++){
+     Edge edge = new Edge(vert[i], vertNeighbors[j], weightList[j]);
+     edgeArr[edgeIter] = edge;
+     edgeIter++;
+   }
+ }
+ quicksort(edgeArr, edgeIter-1);
+ DisjointSets edgeDJS = new DisjointSets(g.vertexCount());
+ HashTableChained vertHTC = new HashTableChained(g.vertexCount());
+ for (int k = 0; k < g.vertexCount(); k++) {
+  vertHTC.insert(vert[k], k);
+}
+for (int l = 0, m = t.edgeCount(); m < g.vertexCount() -1; l++) {
+  Edge tempEdge = edgeArr[l];
+  if (tempEdge == null) break;
+  int firstWeight = Integer.MIN_VALUE;
+  int secondWeight = Integer.MIN_VALUE;
+  firstWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex1()).value());
+  secondWeight = edgeDJS.find((Integer) vertHTC.find(tempEdge.getVertex2()).value());
+  if (edgeDJS.find(firstWeight) != edgeDJS.find(secondWeight)) {
+   t.addEdge(tempEdge.getVertex1(), tempEdge.getVertex2(), tempEdge.getWeight());
+   edgeDJS.union(firstWeight, secondWeight);
+ }
+}
+return t;
+}
 
   /**
    *  Quicksort algorithm.
@@ -75,7 +67,7 @@ public class Kruskal {
    *  @param index1 the index of the first int to be swapped.
    *  @param index2 the index of the second int to be swapped.
    **/
-  public static void swapReferences(Edge[] a, int index1, int index2) {
+   public static void swapReferences(Edge[] a, int index1, int index2) {
     Edge tmp = a[index1];
     a[index1] = a[index2];
     a[index2] = tmp;
@@ -95,63 +87,49 @@ public class Kruskal {
    *  @param lo0     left boundary of array partition
    *  @param hi0     right boundary of array partition
    **/
-   private static void quicksort(Edge a[], int lo0, int hi0) {
-     int lo = lo0;
-     int hi = hi0;
-     int mid;
+  private static void quicksort(Edge a[], int lo0, int hi0) {
+   int lo = lo0;
+   int hi = hi0;
+   int mid;
 
-     if (hi0 > lo0) {
+   if (hi0 > lo0) {
 
        // Arbitrarily establishing partition element as the midpoint of
        // the array.
-       swapReferences(a, lo0, (lo0 + hi0)/2);
-       mid = a[(lo0 + hi0) / 2].getWeight();
+     swapReferences(a, lo0, (lo0 + hi0)/2);
+     mid = a[(lo0 + hi0) / 2].getWeight();
 
        // loop through the array until indices cross.
-       while (lo <= hi) {
+     while (lo <= hi) {
          // find the first element that is greater than or equal to 
          // the partition element starting from the left Index.
-         while((lo < hi0) && (a[lo].getWeight() < mid)) {
-           lo++;
-         }
+       while((lo < hi0) && (a[lo].getWeight() < mid)) {
+         lo++;
+       }
 
          // find an element that is smaller than or equal to 
          // the partition element starting from the right Index.
-         while((hi > lo0) && (a[hi].getWeight() > mid)) {
-           hi--;
-         }
-         // if the indices have not crossed, swap them.
-         if (lo <= hi) {
-           swapReferences(a, lo, hi);
-           lo++;
-           hi--;
-         }
+       while((hi > lo0) && (a[hi].getWeight() > mid)) {
+         hi--;
        }
+         // if the indices have not crossed, swap them.
+       if (lo <= hi) {
+         swapReferences(a, lo, hi);
+         lo++;
+         hi--;
+       }
+     }
 
        // If the right index has not reached the left side of array
        // we must now sort the left partition.
-       if (lo0 < hi) {
-         quicksort(a, lo0, hi);
-       }
+     if (lo0 < hi) {
+       quicksort(a, lo0, hi);
+     }
 
        // If the left index has not reached the right side of array
        // must now sort the right partition.
-       if (lo < hi0) {
-         quicksort(a, lo, hi0);
-       }
+     if (lo < hi0) {
+       quicksort(a, lo, hi0);
      }
    }
-   public static void main(String[] args) {
-   	/*WUGraph wug = new WUGraph(); 
-   	wug.addVertex(99);
-   	wug.addVertex(77);
-   	wug.addVertex(22);
-   	wug.addVertex(55);
-   	wug.addEdge(99, 22, 3);
-   	wug.addEdge(99, 55, 6);
-   	wug.addEdge(22, 77, 5);
-   	wug.addEdge(99, 77, 8);
-   	minSpanTree(wug);*/
-   }
-
-}
+ }
