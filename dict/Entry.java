@@ -11,15 +11,25 @@ package dict;
 
 public class Entry {
 
-  protected Object key;
-  protected Object value;
+    protected Object key;
+    protected Object value;
 
-  public Object key() {
-    return key;
-  }
+    /**
+       key() returns the key.
+       @params: none
+       @return: the key of the Entry.
+    **/
+    public Object key() {
+        return key;
+    }
 
-  public Object value() {
-    return value;
-  }
+    /**
+       value() returns the value.
+       @params: none
+       @return: the value of the Entry.
+    **/
+    public Object value() {
+        return value;
+    }
 
 }
