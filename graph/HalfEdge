@@ -10,8 +10,8 @@ import list.*;
   **/
 
   public class HalfEdge {
-    protected Object halfVertex;
-  	protected DListNode halfNode;
+  	private Object halfVertex;
+  	private DListNode halfNode;
 
 	/**
 		getHalfVertex() returns the vertex that is on the
